@@ -1,16 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:music_app_clone/models/dummy_data.dart';
-import 'package:music_app_clone/pages/home.dart';
-import 'package:recase/recase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:music_app_clone/main.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-
   @override
   State<Login> createState() => _LoginState();
 }
@@ -18,13 +12,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final userController = TextEditingController();
   final passController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   bool isPasswordVisible = false;
   bool isButtonActive = false;
   bool isUserNotEmpty = false;
   bool isPassNotEmpty = false;
-  var data = DummyData.data;
-  late int userData;
 
   @override
   void initState() {
@@ -47,20 +38,25 @@ class _LoginState extends State<Login> {
     passController.addListener(() {
       final isPassNotEmpty = passController.text.isNotEmpty;
 
-      setState(() {
-        this.isPassNotEmpty = isPassNotEmpty;
-        if (isUserNotEmpty == true) {
-          isButtonActive = true;
-        } else {
-          isButtonActive = false;
-        }
-      });
+      setState(
+        () {
+          this.isPassNotEmpty = isPassNotEmpty;
+          if (isUserNotEmpty == true) {
+            isButtonActive = true;
+          } else {
+            isButtonActive = false;
+          }
+        },
+      );
     });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
+    userController.dispose();
+    passController.dispose();
+
     super.dispose();
   }
 
@@ -105,14 +101,13 @@ class _LoginState extends State<Login> {
       margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
       child: Form(
         autovalidateMode: AutovalidateMode.disabled,
-        key: formKey,
         child: Column(
           children: [
             emailField(),
             SizedBox(height: 20),
             passwordField(),
             SizedBox(height: 40),
-            loginButton(),
+            loginButton(context),
           ],
         ),
       ),
@@ -191,34 +186,23 @@ class _LoginState extends State<Login> {
                   : Icon(Icons.visibility_off_outlined),
               color: Colors.white,
               onPressed: () {
-                setState(() {
-                  isPasswordVisible = !isPasswordVisible;
-                });
+                setState(
+                  () {
+                    isPasswordVisible = !isPasswordVisible;
+                  },
+                );
               },
             ),
           ),
           obscureText: !isPasswordVisible,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.done,
-          validator: (value) {
-            for (var i = 0; i < data.length; i++) {
-              if (data[i].containsKey("username") &&
-                  data[i].containsValue(userController.text)) {
-                if ((data[i].containsKey("password") &&
-                    data[i].containsValue(passController.text))) {
-                  userData = i;
-                  return null;
-                }
-              }
-            }
-            return 'This email and password combination is incorrect.';
-          },
         ),
       ],
     );
   }
 
-  Widget loginButton() {
+  Widget loginButton(BuildContext context) {
     return MaterialButton(
       child: Text(
         'Log in',
@@ -235,32 +219,27 @@ class _LoginState extends State<Login> {
       ),
       minWidth: 100,
       height: 50,
-      onPressed: isButtonActive
-          ? () async {
-              FocusScope.of(context).unfocus();
-              final isFormValid = formKey.currentState!.validate();
-              var userList = data[userData].entries.toList();
-              var userName = userList[1].value;
-
-              ReCase formatUserName = ReCase(userName);
-              var newUserName = formatUserName.titleCase;
-
-              if (isFormValid) {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setBool("isLoggedIn", true);
-                prefs.setString('name', newUserName);
-                Timer(Duration(seconds: 2), () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => Home(
-                          userName: newUserName,
-                        ),
-                      ),
-                      (route) => false);
-                });
-              }
-            }
-          : null,
+      onPressed: isButtonActive ? signIn : null,
     );
+  }
+
+  Future signIn() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: userController.text.trim(),
+          password: passController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

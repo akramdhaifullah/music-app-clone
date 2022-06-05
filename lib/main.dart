@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app_clone/firebase_options.dart';
 import 'package:music_app_clone/pages/home.dart';
 import 'package:music_app_clone/pages/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-dynamic isLoggedIn;
-dynamic displayName;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,78 +14,93 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+final navigatorKey = GlobalKey<NavigatorState>();
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Future getValidationData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var loginStatus = prefs.getBool('isLoggedIn');
-    var userName = prefs.getString('name');
-    setState(() {
-      isLoggedIn = loginStatus;
-      displayName = userName;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    getValidationData();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       scrollBehavior: NoScrollGlow(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'CircularStd'),
-      home: isLoggedIn == true ? Home(userName: displayName) : MainPage(),
+      home: MainPage(),
     );
   }
 }
 
 class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Home();
+          } else {
+            return WelcomePage();
+          }
+        },
+      ),
+    );
+  }
+}
 
+class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Align(
-        alignment: Alignment.center,
-        child: TextButton(
-            child: Text(
-              'Log in',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              child: Text(
+                'Sign up',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              disabledColor: Colors.white10,
+              disabledTextColor: Colors.black,
+              color: Colors.green,
+              textColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              minWidth: 300,
+              height: 50,
+              onPressed: () {},
             ),
-            style: TextButton.styleFrom(
-              enableFeedback: false,
-              splashFactory: NoSplash.splashFactory,
-              primary: Colors.white,
-              onSurface: Colors.grey,
+            SizedBox(
+              height: 15,
             ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              );
-            }),
+            TextButton(
+              child: Text(
+                'Log in',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: TextButton.styleFrom(
+                enableFeedback: false,
+                splashFactory: NoSplash.splashFactory,
+                primary: Colors.white,
+                onSurface: Colors.grey,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

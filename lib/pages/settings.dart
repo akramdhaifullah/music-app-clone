@@ -1,14 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
-import 'dart:async';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app_clone/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,32 +40,26 @@ class Settings extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: MaterialButton(
-          child: Text(
-            'Log out',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+        child: Text(
+          'Log out',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          disabledColor: Colors.white10,
-          disabledTextColor: Colors.black,
-          color: Colors.white,
-          textColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          minWidth: 120,
-          height: 50,
-          onPressed: () async {
-            final SharedPreferences sp = await SharedPreferences.getInstance();
-            sp.clear();
-            Timer(Duration(seconds: 2), () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => MainPage(),
-                  ),
-                  (route) => false);
-            });
-          }),
+        ),
+        disabledColor: Colors.white10,
+        disabledTextColor: Colors.black,
+        color: Colors.white,
+        textColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        minWidth: 120,
+        height: 50,
+        onPressed: () {
+          FirebaseAuth.instance.signOut();
+          navigatorKey.currentState!.popUntil((route) => route.isFirst);
+        },
+      ),
     );
   }
 }

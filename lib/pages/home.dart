@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/artist.dart';
 import 'package:music_app_clone/models/charts.dart';
 import 'package:music_app_clone/models/music.dart';
@@ -12,18 +13,15 @@ import 'package:music_app_clone/pages/recent.dart';
 import 'package:music_app_clone/pages/settings.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key? key, required this.userName}) : super(key: key);
-  final String userName;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(
           children: [
-            welcome(context, userName),
+            welcome(),
             SizedBox(height: 20),
             podcasts(),
             SizedBox(height: 20),
@@ -38,7 +36,7 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget welcome(BuildContext context, String user) {
+  Widget welcome() {
     return Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -49,28 +47,28 @@ class Home extends StatelessWidget {
         ),
         child: Column(
           children: [
-            header(context, user),
+            header(),
             gridCards(),
             SizedBox(height: 10),
           ],
         ));
   }
 
-  Widget header(BuildContext context, String user) {
+  Widget header() {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 50, 15, 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          headerTitle(user),
+          headerTitle(),
           Row(
             children: [
-              notificationButton(context),
+              notificationButton(),
               SizedBox(width: 16),
-              recentButton(context),
+              recentButton(),
               SizedBox(width: 16),
-              settingsButton(context),
+              settingsButton(),
             ],
           ),
         ],
@@ -78,18 +76,9 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget headerTitle(String user) {
-    String getFirstWord(String inputString) {
-      List<String> wordList = inputString.split(" ");
-      if (wordList.isNotEmpty) {
-        return wordList[0];
-      } else {
-        return ' ';
-      }
-    }
-
+  Widget headerTitle() {
     return Text(
-      'Hello, ' + getFirstWord(user),
+      'Good morning',
       style: TextStyle(
         color: Colors.white,
         fontSize: 20,
@@ -98,12 +87,10 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget notificationButton(BuildContext context) {
+  Widget notificationButton() {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Updates()));
-      },
+      onTap: () => navigatorKey.currentState!
+          .push(MaterialPageRoute(builder: (context) => Updates())),
       child: Icon(
         MdiIcons.bellOutline,
         color: Colors.white,
@@ -112,12 +99,10 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget recentButton(BuildContext context) {
+  Widget recentButton() {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Recent()));
-      },
+      onTap: () => navigatorKey.currentState!
+          .push(MaterialPageRoute(builder: (context) => Recent())),
       child: Icon(
         MdiIcons.progressClock,
         color: Colors.white,
@@ -126,12 +111,10 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget settingsButton(BuildContext context) {
+  Widget settingsButton() {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Settings()));
-      },
+      onTap: () => navigatorKey.currentState!
+          .push(MaterialPageRoute(builder: (context) => Settings())),
       child: Icon(
         MdiIcons.cogOutline,
         color: Colors.white,
