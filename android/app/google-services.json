@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1058486437526",
+    "project_id": "music-app-clone-75e1d",
+    "storage_bucket": "music-app-clone-75e1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058486437526:android:4fdb91928836c20235a4b7",
+        "android_client_info": {
+          "package_name": "com.example.music_app_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058486437526-gkuu0qto0489jg0h248jjursfm15cq7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB8dTN98E-a0pMpWidauh2Uv-1IleBp74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058486437526-gkuu0qto0489jg0h248jjursfm15cq7i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
