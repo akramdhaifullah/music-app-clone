@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app_clone/firebase_options.dart';
 import 'package:music_app_clone/pages/home.dart';
 import 'package:music_app_clone/pages/login.dart';
+import 'package:music_app_clone/pages/register.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,32 +74,30 @@ class WelcomePage extends StatelessWidget {
               ),
               minWidth: 300,
               height: 50,
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Register())),
             ),
             SizedBox(
               height: 15,
             ),
             TextButton(
-              child: Text(
-                'Log in',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                child: Text(
+                  'Log in',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              style: TextButton.styleFrom(
-                enableFeedback: false,
-                splashFactory: NoSplash.splashFactory,
-                primary: Colors.white,
-                onSurface: Colors.grey,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                );
-              },
-            ),
+                style: TextButton.styleFrom(
+                  enableFeedback: false,
+                  splashFactory: NoSplash.splashFactory,
+                  primary: Colors.white,
+                  onSurface: Colors.grey,
+                ),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    )),
           ],
         ),
       ),

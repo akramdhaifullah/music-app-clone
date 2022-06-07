@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app_clone/main.dart';
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final userController = TextEditingController();
   final passController = TextEditingController();
   bool isPasswordVisible = false;
@@ -73,7 +73,7 @@ class _LoginState extends State<Login> {
             backgroundColor: Colors.transparent,
             leading: backButton(context),
             title: const Text(
-              'Log in',
+              'Create an account',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
             elevation: 0,
           ),
         ),
-        body: loginForm(),
+        body: RegisterForm(),
       ),
     );
   }
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget loginForm() {
+  Widget RegisterForm() {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
       child: Form(
@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
             SizedBox(height: 10),
             errorText(),
             SizedBox(height: 25),
-            loginButton(),
+            registerButton(),
           ],
         ),
       ),
@@ -122,7 +122,7 @@ class _LoginState extends State<Login> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Email or username',
+          'Email address',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -215,10 +215,10 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget loginButton() {
+  Widget registerButton() {
     return MaterialButton(
       child: Text(
-        'Log in',
+        'Create account',
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -230,13 +230,13 @@ class _LoginState extends State<Login> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
-      minWidth: 100,
+      minWidth: 150,
       height: 50,
-      onPressed: isButtonActive ? signIn : null,
+      onPressed: isButtonActive ? register : null,
     );
   }
 
-  Future signIn() async {
+  Future register() async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -246,7 +246,7 @@ class _LoginState extends State<Login> {
     );
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: userController.text.trim(),
           password: passController.text.trim());
       navigatorKey.currentState!.popUntil((route) => route.isFirst);

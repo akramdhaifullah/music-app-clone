@@ -163,9 +163,7 @@ class Home extends StatelessWidget {
 
   Widget horizontalCards(Playlist playlist) {
     return GestureDetector(
-      onTap: () {
-        print('Hello world!');
-      },
+      onTap: () {},
       child: Material(
         color: Color.fromARGB(160, 33, 33, 33),
         elevation: 10,

@@ -2,18 +2,22 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_app_clone/main.dart';
 
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
+    final userEmail = user.email!;
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(45),
         child: AppBar(
           backgroundColor: Color.fromARGB(255, 19, 19, 19),
-          leading: backButton(context),
+          leading: backButton(),
           title: const Text(
             'Settings',
           ),
@@ -21,22 +25,65 @@ class Settings extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        logOut(context),
-      ]),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        child: Column(children: [
+          userProfile(userEmail),
+          SizedBox(height: 20),
+          logOut(),
+        ]),
+      ),
     );
   }
 
-  Widget backButton(BuildContext context) {
+  Widget backButton() {
     return GestureDetector(
       child: Icon(Icons.arrow_back_ios),
       onTap: () {
-        Navigator.pop(context);
+        navigatorKey.currentState!.pop();
       },
     );
   }
 
-  Widget logOut(BuildContext context) {
+  Widget userProfile(String email) {
+    return GestureDetector(
+      child: Row(children: [
+        userProfilePhoto(),
+        SizedBox(width: 20),
+        userProfileText(email),
+      ]),
+    );
+  }
+
+  Widget userProfilePhoto() {
+    return CircleAvatar(
+      child: Icon(
+        MdiIcons.accountOutline,
+        color: Colors.white,
+      ),
+      radius: 26.0,
+      backgroundColor: Color.fromARGB(255, 41, 41, 41),
+    );
+  }
+
+  Widget userProfileText(String user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          user,
+          style: TextStyle(color: Colors.white),
+        ),
+        SizedBox(height: 5),
+        Text(
+          'View Profile',
+          style: TextStyle(color: Colors.grey),
+        ),
+      ],
+    );
+  }
+
+  Widget logOut() {
     return Align(
       alignment: Alignment.center,
       child: MaterialButton(
