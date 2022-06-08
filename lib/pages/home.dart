@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:music_app_clone/main.dart';
@@ -22,7 +23,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -115,13 +115,25 @@ class _HomeState extends State<Home> {
 
   Widget headerTitle() {
     return Text(
-      'Good morning',
+      headerGreetings(),
       style: TextStyle(
         color: Colors.white,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
     );
+  }
+
+  String headerGreetings() {
+    final now = DateTime.now();
+    final time = int.parse('${now.hour}${now.minute}');
+    if (time >= 600) {
+      return 'Good morning';
+    } else if (time >= 1200 && time <= 1900) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
   }
 
   Widget notificationButton() {
@@ -197,6 +209,7 @@ class _HomeState extends State<Home> {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               photoCard(playlist.image.toString()),
               SizedBox(width: 8),
@@ -210,19 +223,29 @@ class _HomeState extends State<Home> {
 
   Widget photoCard(String image) {
     return ClipRRect(
+      clipBehavior: Clip.hardEdge,
       child: Image(
         image: NetworkImage(image),
+        fit: BoxFit.cover,
+        width: 59,
+        height: 59,
       ),
     );
   }
 
   Widget labelCard(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
+    return SizedBox(
+      width: 104,
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+          height: 1.4,
+        ),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

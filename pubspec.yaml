@@ -42,6 +42,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.6595
   shared_preferences:
   recase:
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

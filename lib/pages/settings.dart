@@ -26,10 +26,10 @@ class Settings extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 40),
         child: Column(children: [
           userProfile(userEmail),
-          SizedBox(height: 20),
+          Spacer(),
           logOut(),
         ]),
       ),
@@ -51,6 +51,8 @@ class Settings extends StatelessWidget {
         userProfilePhoto(),
         SizedBox(width: 20),
         userProfileText(email),
+        Spacer(),
+        viewProfile(),
       ]),
     );
   }
@@ -80,6 +82,17 @@ class Settings extends StatelessWidget {
           style: TextStyle(color: Colors.grey),
         ),
       ],
+    );
+  }
+
+  Widget viewProfile() {
+    return GestureDetector(
+      onTap: () {},
+      child: Icon(
+        Icons.chevron_right_rounded,
+        color: Colors.white70,
+        size: 30,
+      ),
     );
   }
 
