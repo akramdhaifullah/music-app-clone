@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_app_clone/main.dart';
+import 'package:music_app_clone/models/configuration.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -25,13 +26,16 @@ class Settings extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 40),
-        child: Column(children: [
-          userProfile(userEmail),
-          Spacer(),
-          logOut(),
-        ]),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 40),
+          child: Column(children: [
+            userProfile(userEmail),
+            SizedBox(height: 10),
+            settingsList(),
+            logOut(),
+          ]),
+        ),
       ),
     );
   }
@@ -46,14 +50,23 @@ class Settings extends StatelessWidget {
   }
 
   Widget userProfile(String email) {
-    return GestureDetector(
-      child: Row(children: [
+    String getFirstWord(String email) {
+      List<String> wordList = email.split('@');
+      if (wordList.isNotEmpty) {
+        return wordList[0];
+      } else {
+        return '';
+      }
+    }
+
+    return Row(
+      children: [
         userProfilePhoto(),
         SizedBox(width: 20),
-        userProfileText(email),
+        userProfileText(getFirstWord(email)),
         Spacer(),
-        viewProfile(),
-      ]),
+        userProfileIcon(),
+      ],
     );
   }
 
@@ -62,6 +75,7 @@ class Settings extends StatelessWidget {
       child: Icon(
         MdiIcons.accountOutline,
         color: Colors.white,
+        size: 30,
       ),
       radius: 26.0,
       backgroundColor: Color.fromARGB(255, 41, 41, 41),
@@ -72,11 +86,15 @@ class Settings extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 5),
         Text(
           user,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: 6),
         Text(
           'View Profile',
           style: TextStyle(color: Colors.grey),
@@ -85,13 +103,52 @@ class Settings extends StatelessWidget {
     );
   }
 
-  Widget viewProfile() {
+  Widget userProfileIcon() {
+    return Icon(
+      Icons.chevron_right_rounded,
+      color: Colors.white70,
+      size: 30,
+    );
+  }
+
+  Widget settingsList() {
+    List<Configuration> data = ConfigurationOperations().getConfiguration();
+    return SizedBox(
+      height: 600,
+      child: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return buildSettingsList(data[index]);
+        },
+        itemCount: data.length,
+        physics: NeverScrollableScrollPhysics(),
+      ),
+    );
+  }
+
+  Widget buildSettingsList(Configuration config) {
     return GestureDetector(
-      onTap: () {},
-      child: Icon(
-        Icons.chevron_right_rounded,
-        color: Colors.white70,
-        size: 30,
+      onTap: () {
+        print('Opening ${config.configName}');
+      },
+      child: SizedBox(
+        // color: Colors.green,
+        height: 48,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              config.configName,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+            Spacer(),
+            userProfileIcon(),
+          ],
+        ),
       ),
     );
   }

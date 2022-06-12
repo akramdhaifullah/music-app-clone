@@ -22,7 +22,8 @@ void main() async {
     channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
-      description: 'This channel is used for important notifications.', // description
+      description:
+          'This channel is used for important notifications.', // description
       importance: Importance.high,
     );
 
@@ -46,7 +47,7 @@ void main() async {
       sound: true,
     );
   }
-
+  print("Token: ${(await FirebaseMessaging.instance.getToken()).toString()}");
   runApp(MyApp());
 }
 
@@ -62,7 +63,6 @@ late AndroidNotificationChannel channel;
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
