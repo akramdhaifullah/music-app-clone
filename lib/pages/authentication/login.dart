@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
 
       setState(() {
         this.isUserNotEmpty = isUserNotEmpty;
-        if (isPassNotEmpty == true) {
+        if (isPassNotEmpty == true && isUserNotEmpty == true) {
           isButtonActive = true;
         } else {
           isButtonActive = false;
@@ -39,16 +39,14 @@ class _LoginState extends State<Login> {
     passController.addListener(() {
       final isPassNotEmpty = passController.text.isNotEmpty;
 
-      setState(
-        () {
-          this.isPassNotEmpty = isPassNotEmpty;
-          if (isUserNotEmpty == true) {
-            isButtonActive = true;
-          } else {
-            isButtonActive = false;
-          }
-        },
-      );
+      setState(() {
+        this.isPassNotEmpty = isPassNotEmpty;
+        if (isUserNotEmpty == true && isPassNotEmpty == true) {
+          isButtonActive = true;
+        } else {
+          isButtonActive = false;
+        }
+      });
     });
   }
 
