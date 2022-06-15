@@ -2,7 +2,6 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -13,9 +12,9 @@ import 'package:music_app_clone/models/charts.dart';
 import 'package:music_app_clone/models/music.dart';
 import 'package:music_app_clone/models/playlist.dart';
 import 'package:music_app_clone/models/podcast.dart';
-import 'package:music_app_clone/pages/updates.dart';
-import 'package:music_app_clone/pages/recent.dart';
-import 'package:music_app_clone/pages/settings.dart';
+import 'package:music_app_clone/pages/home/updates.dart';
+import 'package:music_app_clone/pages/home/recent.dart';
+import 'package:music_app_clone/pages/settings/settings.dart';
 
 class Home extends StatefulWidget {
   @override
