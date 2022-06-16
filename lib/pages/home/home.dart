@@ -128,6 +128,7 @@ class _HomeState extends State<Home> {
   String headerGreetings() {
     final now = DateTime.now();
     final time = int.parse('${now.hour}${now.minute}');
+    print(time);
     if (time >= 600 && time <= 1159) {
       return 'Good morning';
     } else if (time >= 1200 && time <= 1759) {
@@ -176,13 +177,14 @@ class _HomeState extends State<Home> {
   // Widget rowColumnCards() {
   Widget gridCards() {
     return Container(
-      height: 187,
+      height: 185,
+      // color: Colors.green,
       margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
       child: GridView.count(
         padding: EdgeInsets.all(0),
         physics: NeverScrollableScrollPhysics(),
-        childAspectRatio: 6.25 / 2,
-        mainAxisSpacing: 7,
+        childAspectRatio: 6.5 / 2,
+        mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         crossAxisCount: 2,
         children: gridCardsList(),
@@ -206,7 +208,7 @@ class _HomeState extends State<Home> {
       },
       child: Material(
         color: Color.fromARGB(160, 33, 33, 33),
-        elevation: 1.5,
+        elevation: 2,
         borderRadius: BorderRadius.circular(edgeBorder),
         child: Container(
           height: 60,
@@ -229,7 +231,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget photoCard(String image) {
-    double squareSize = 57;
+    double squareSize = 55;
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
       child: Image(
@@ -249,7 +251,7 @@ class _HomeState extends State<Home> {
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontSize: 12.5,
+          fontSize: 12,
         ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
@@ -316,9 +318,8 @@ class _HomeState extends State<Home> {
             width: 150,
             height: 150,
           ),
-          Container(
+          SizedBox(
             width: 150,
-            margin: EdgeInsets.only(bottom: 8),
             child: Text(
               podcast.title,
               maxLines: 1,
@@ -330,6 +331,7 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          SizedBox(height: 6),
           SizedBox(
             width: 150,
             child: Text(
@@ -349,6 +351,7 @@ class _HomeState extends State<Home> {
 
   Widget charts() {
     return Container(
+      // color: Colors.green,
       margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
       child: Column(
         children: [
@@ -541,7 +544,7 @@ class _HomeState extends State<Home> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 14, 14),
+          margin: EdgeInsets.only(right: 14),
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(75),
@@ -552,6 +555,7 @@ class _HomeState extends State<Home> {
           width: 150,
           height: 150,
         ),
+        SizedBox(height: 10),
         Container(
           width: 150,
           margin: EdgeInsets.only(bottom: 8),
@@ -561,8 +565,7 @@ class _HomeState extends State<Home> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
+              fontSize: 13,
             ),
             textAlign: TextAlign.center,
           ),
