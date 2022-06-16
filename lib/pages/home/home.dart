@@ -126,16 +126,17 @@ class _HomeState extends State<Home> {
   }
 
   String headerGreetings() {
-    final now = DateTime.now();
-    final time = int.parse('${now.hour}${now.minute}');
-    print(time);
-    if (time >= 600 && time <= 1159) {
-      return 'Good morning';
-    } else if (time >= 1200 && time <= 1759) {
-      return 'Good afternoon';
-    } else {
-      return 'Good evening';
-    }
+    // final now = DateTime.now();
+    // final time = int.parse('${now.hour}${now.minute}');
+    // print(time);
+    // if (time >= 600 && time <= 1159) {
+    //   return 'Good morning';
+    // } else if (time >= 1200 && time <= 1759) {
+    //   return 'Good afternoon';
+    // } else {
+    //   return 'Good evening';
+    // }
+    return 'Good morning';
   }
 
   Widget notificationButton(double size) {
