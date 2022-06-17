@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Playlist {
   String? image;
   final String title;
