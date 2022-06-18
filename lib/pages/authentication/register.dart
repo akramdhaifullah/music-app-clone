@@ -81,7 +81,7 @@ class _RegisterState extends State<Register> {
             elevation: 0,
           ),
         ),
-        body: RegisterForm(),
+        body: registerForm(),
       ),
     );
   }
@@ -95,7 +95,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget RegisterForm() {
+  Widget registerForm() {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
       child: Form(

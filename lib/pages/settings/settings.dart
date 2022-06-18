@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, sized_box_for_whitespace
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/configuration.dart';
+import 'package:music_app_clone/pages/settings/artist/new_artist.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -32,8 +33,10 @@ class Settings extends StatelessWidget {
           child: Column(children: [
             userProfile(userEmail),
             SizedBox(height: 10),
+            artistSettingsList(),
+            SizedBox(height: 20),
             settingsList(),
-            logOut(),
+            logOutButton(),
           ]),
         ),
       ),
@@ -49,6 +52,7 @@ class Settings extends StatelessWidget {
     );
   }
 
+  // use Card widget
   Widget userProfile(String email) {
     String getFirstWord(String email) {
       List<String> wordList = email.split('@');
@@ -111,9 +115,61 @@ class Settings extends StatelessWidget {
     );
   }
 
+  Widget artistSettingsList() {
+    List<ConfigurationArtist> data =
+        ConfigurationArtistOperations().artistConfigurations;
+    return Container(
+      // color: Colors.green,
+      height: 140,
+      child: ListView(
+        children: [
+          GestureDetector(
+            onTap: () {
+              navigatorKey.currentState!
+                  .push(MaterialPageRoute(builder: (context) => NewArtist()));
+            },
+            child: buildArtistSettingsList(data[0]),
+          ),
+          buildArtistSettingsList(data[1]),
+          buildArtistSettingsList(data[2]),
+        ],
+      ),
+      // child: ListView.builder(
+      //   itemBuilder: (BuildContext context, int index) {
+      //     return buildArtistSettingsList(data[index]);
+      //   },
+      //   itemCount: data.length,
+      //   physics: NeverScrollableScrollPhysics(),
+      // ),
+    );
+  }
+
+  Widget buildArtistSettingsList(ConfigurationArtist config) {
+    return Container(
+      // color: Colors.green,
+      height: 48,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            config.label,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
+          ),
+          Spacer(),
+          userProfileIcon(),
+        ],
+      ),
+    );
+  }
+
   Widget settingsList() {
     List<Configuration> data = ConfigurationOperations().getConfiguration();
-    return SizedBox(
+    return Container(
+      // color: Colors.amber,
       height: 600,
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
@@ -128,7 +184,7 @@ class Settings extends StatelessWidget {
   Widget buildSettingsList(Configuration config) {
     return GestureDetector(
       onTap: () {
-        print('Opening ${config.configName}');
+        print('Opening ${config.label}');
       },
       child: SizedBox(
         // color: Colors.green,
@@ -138,10 +194,9 @@ class Settings extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              config.configName,
+              config.label,
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
@@ -153,7 +208,7 @@ class Settings extends StatelessWidget {
     );
   }
 
-  Widget logOut() {
+  Widget logOutButton() {
     return Align(
       alignment: Alignment.center,
       child: MaterialButton(

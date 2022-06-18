@@ -2,13 +2,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:music_app_clone/firebase_options.dart';
+import 'package:music_app_clone/models/artist.dart';
 import 'package:music_app_clone/pages/home/home.dart';
 import 'package:music_app_clone/pages/welcome/welcome.dart';
+
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +52,13 @@ void main() async {
     );
   }
   print("Token: ${(await FirebaseMessaging.instance.getToken()).toString()}");
-  runApp(MyApp());
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => ArtistOperations()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

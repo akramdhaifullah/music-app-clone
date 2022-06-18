@@ -1,26 +1,41 @@
-import 'package:flutter/cupertino.dart';
-
+// ignore_for_file: prefer_final_fields
 class Configuration {
-  String configName;
+  String label;
 
-  Configuration({required this.configName});
+  Configuration({required this.label});
 }
 
 class ConfigurationOperations {
   List<Configuration> getConfiguration() {
     return <Configuration>[
-      Configuration(configName: 'Account'),
-      Configuration(configName: 'Data Saver'),
-      Configuration(configName: 'Languages'),
-      Configuration(configName: 'Devices'),
-      Configuration(configName: 'Car'),
-      Configuration(configName: 'Voice Assistans & Apps'),
-      Configuration(configName: 'Video Quality'),
-      Configuration(configName: 'Storage'),
-      Configuration(configName: 'Notifications'),
-      Configuration(configName: 'Advertisements'),
-      Configuration(configName: 'Local Files'),
-      Configuration(configName: 'About'),
+      Configuration(label: 'Account'),
+      Configuration(label: 'Data Saver'),
+      Configuration(label: 'Languages'),
+      Configuration(label: 'Devices'),
+      Configuration(label: 'Car'),
+      Configuration(label: 'Voice Assistans & Apps'),
+      Configuration(label: 'Video Quality'),
+      Configuration(label: 'Storage'),
+      Configuration(label: 'Notifications'),
+      Configuration(label: 'Advertisements'),
+      Configuration(label: 'Local Files'),
+      Configuration(label: 'About'),
     ];
   }
+}
+
+class ConfigurationArtist {
+  String label;
+
+  ConfigurationArtist({required this.label});
+}
+
+class ConfigurationArtistOperations {
+  List<ConfigurationArtist> _list = [
+    ConfigurationArtist(label: 'Add new artist'),
+    ConfigurationArtist(label: 'Delete existing artist'),
+    ConfigurationArtist(label: 'Edit existing artist'),
+  ];
+
+  List<ConfigurationArtist> get artistConfigurations => _list;
 }
