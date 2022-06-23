@@ -531,7 +531,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget artistList() {
-    data = navigatorKey.currentContext!.watch<ArtistOperations>().artistList;
+    // data = navigatorKey.currentContext!.watch<ArtistOperations>().artistList;
     return Consumer<ArtistOperations>(
       builder: (context, value, child) => SizedBox(
         height: 215,

@@ -211,7 +211,7 @@ class _SetNewArtistState extends State<SetNewArtist> {
             leading: backButton(),
             title: Consumer<ArtistOperations>(
               builder: (context, value, child) => Text(
-                'Update ${navigatorKey.currentContext!.read<ArtistOperations>().getDataName}',
+                'Update $getDataName',
               ),
             ),
             centerTitle: true,

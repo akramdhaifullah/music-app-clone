@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+late int getDataIndex;
+late String getDataName;
+
 class Artist {
   String? image;
   String name;
@@ -13,8 +16,6 @@ class Artist {
 }
 
 class ArtistOperations with ChangeNotifier {
-  late int getDataIndex;
-  late String getDataName;
   List<Artist> _list = [
     Artist(
         image:
