@@ -18,6 +18,8 @@ import 'package:music_app_clone/pages/settings/settings.dart';
 
 import 'package:provider/provider.dart';
 
+List<Artist> data = ArtistOperations().artistList;
+
 class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
@@ -529,8 +531,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget artistList() {
-    List<Artist> data =
-        navigatorKey.currentContext!.watch<ArtistOperations>().artistList;
+    data = navigatorKey.currentContext!.watch<ArtistOperations>().artistList;
     return Consumer<ArtistOperations>(
       builder: (context, value, child) => SizedBox(
         height: 215,
@@ -555,6 +556,7 @@ class _HomeState extends State<Home> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(75),
             image: DecorationImage(
+              fit: BoxFit.cover,
               image: NetworkImage(artist.image.toString()),
             ),
           ),

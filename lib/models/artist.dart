@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 
 class Artist {
   String? image;
-  final String name;
+  String name;
 
   Artist({this.image, required this.name}) {
     image ??= 'https://i.imgur.com/ovAdKF3.png';
@@ -13,6 +13,8 @@ class Artist {
 }
 
 class ArtistOperations with ChangeNotifier {
+  late int getDataIndex;
+  late String getDataName;
   List<Artist> _list = [
     Artist(
         image:
@@ -38,24 +40,64 @@ class ArtistOperations with ChangeNotifier {
 
   List<Artist> get artistList => _list;
 
-  void addArtist(String image, String name) {
-    bool hasDuplicate = false;
-    for (int i = 0; i < _list.length; i++) {
-      if (name.compareTo(_list[i].name) == 0) {
-        hasDuplicate = true;
+  dynamic checkArtistsForDuplicate(String artist, List<Artist> list) {
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].name.contains(artist)) {
+        return 'Artist is already added.';
       }
     }
+    return null;
+  }
 
-    if (!hasDuplicate) {
-      print(image + ', ' + name);
-      if (image == ' ' || image == '') {
-        _list.add(Artist(image: null, name: name));
-        print('condition fulfilled');
-      } else {
-        _list.add(Artist(image: image, name: name));
-        print('condition not fulfilled');
-      }
-      notifyListeners();
+  void addArtist(String image, String name, List<Artist> list) {
+    if (image == ' ' || image == '') {
+      list.add(Artist(image: null, name: name));
+      print('condition fulfilled');
+    } else {
+      list.add(Artist(image: image, name: name));
+      print('condition not fulfilled');
     }
+    notifyListeners();
+  }
+
+  dynamic checkArtistForDelete(String artist, List<Artist> list) {
+    for (var i = 0; i < _list.length; i++) {
+      print(list[i].name);
+      if (list[i].name.contains(artist)) {
+        return null;
+      }
+    }
+    return 'Artist is not in data';
+  }
+
+  void deleteArtist(String name, List<Artist> list) {
+    list.removeWhere((element) => element.name == name);
+    notifyListeners();
+  }
+
+  dynamic checkArtistForUpdate(String artist, List<Artist> list) {
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].name.contains(artist)) {
+        getDataIndex = i;
+        getDataName = list[getDataIndex].name;
+        print(getDataName);
+        print(getDataIndex);
+        notifyListeners();
+        return null;
+      }
+    }
+    return 'Artist is not in data';
+  }
+
+  void updateArtist(String image, String name, List<Artist> list) {
+    if (image == ' ' || image == '') {
+      list[getDataIndex].name = name;
+      print('condition fulfilled');
+    } else {
+      list[getDataIndex].image = image;
+      list[getDataIndex].name = name;
+      print('condition not fulfilled');
+    }
+    notifyListeners();
   }
 }

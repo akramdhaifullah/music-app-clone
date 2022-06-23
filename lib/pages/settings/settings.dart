@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, sized_box_for_whitespace
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/configuration.dart';
+import 'package:music_app_clone/pages/settings/artist/delete_artist.dart';
 import 'package:music_app_clone/pages/settings/artist/new_artist.dart';
+import 'package:music_app_clone/pages/settings/artist/update_artist.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -126,12 +127,22 @@ class Settings extends StatelessWidget {
           GestureDetector(
             onTap: () {
               navigatorKey.currentState!
-                  .push(MaterialPageRoute(builder: (context) => NewArtist()));
+                  .push(MaterialPageRoute(builder: (context) => AddArtist()));
             },
             child: buildArtistSettingsList(data[0]),
           ),
-          buildArtistSettingsList(data[1]),
-          buildArtistSettingsList(data[2]),
+          GestureDetector(
+              onTap: () {
+                navigatorKey.currentState!.push(
+                    MaterialPageRoute(builder: (context) => DeleteArtist()));
+              },
+              child: buildArtistSettingsList(data[1])),
+          GestureDetector(
+              onTap: () {
+                navigatorKey.currentState!.push(
+                    MaterialPageRoute(builder: ((context) => UpdateArtist())));
+              },
+              child: buildArtistSettingsList(data[2])),
         ],
       ),
       // child: ListView.builder(

@@ -2,20 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:music_app_clone/pages/home/home.dart';
-
 import 'package:provider/provider.dart';
 
 import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/artist.dart';
 
-class AddArtist extends StatefulWidget {
+class DeleteArtist extends StatefulWidget {
   @override
-  State<AddArtist> createState() => _AddArtistState();
+  State<DeleteArtist> createState() => _DeleteArtistState();
 }
 
-class _AddArtistState extends State<AddArtist> {
+class _DeleteArtistState extends State<DeleteArtist> {
   final nameController = TextEditingController();
-  final imageController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isButtonActive = false;
 
@@ -51,7 +49,7 @@ class _AddArtistState extends State<AddArtist> {
             backgroundColor: Color.fromARGB(255, 19, 19, 19),
             leading: backButton(),
             title: const Text(
-              'Add new artist',
+              'Delete artist',
             ),
             centerTitle: true,
             elevation: 0,
@@ -71,10 +69,8 @@ class _AddArtistState extends State<AddArtist> {
         child: Column(
           children: [
             nameField(),
-            SizedBox(height: 20),
-            imageField(),
             SizedBox(height: 40),
-            addButton(),
+            deleteButton(),
           ],
         ),
       ),
@@ -91,51 +87,13 @@ class _AddArtistState extends State<AddArtist> {
   }
 
   Widget nameField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Name',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
-        SizedBox(height: 5),
-        SizedBox(
-          child: TextFormField(
-            textAlignVertical: TextAlignVertical.center,
-            controller: nameController,
-            cursorColor: Colors.green,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-            ),
-            decoration: InputDecoration(
-              fillColor: Color.fromARGB(255, 75, 75, 75),
-              filled: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide.none,
-              ),
-            ),
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.done,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget imageField() {
     return SizedBox(
       height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Image URL',
+            'Name',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -145,7 +103,7 @@ class _AddArtistState extends State<AddArtist> {
           SizedBox(
             child: TextFormField(
               textAlignVertical: TextAlignVertical.center,
-              controller: imageController,
+              controller: nameController,
               cursorColor: Colors.green,
               style: TextStyle(
                 fontSize: 16,
@@ -165,7 +123,7 @@ class _AddArtistState extends State<AddArtist> {
               validator: (value) {
                 ArtistOperations ao = ArtistOperations();
                 String checkArtist = nameController.text.trim();
-                return ao.checkArtistsForDuplicate(checkArtist, data);
+                return ao.checkArtistForDelete(checkArtist, data);
               },
             ),
           ),
@@ -174,12 +132,12 @@ class _AddArtistState extends State<AddArtist> {
     );
   }
 
-  Widget addButton() {
+  Widget deleteButton() {
     return Align(
       alignment: Alignment.center,
       child: MaterialButton(
         child: Text(
-          'Add artist',
+          'Delete artist',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -193,19 +151,19 @@ class _AddArtistState extends State<AddArtist> {
         ),
         minWidth: 120,
         height: 50,
-        onPressed: isButtonActive ? addArtist : null,
+        onPressed: isButtonActive ? deleteArtist : null,
       ),
     );
   }
 
-  void addArtist() {
+  void deleteArtist() {
     FocusScope.of(context).unfocus();
     final isFormValid = formKey.currentState!.validate();
 
     if (isFormValid) {
-      navigatorKey.currentContext!.read<ArtistOperations>().addArtist(
-          imageController.text.trim(), nameController.text.trim(), data);
-      // navigatorKey.currentState!.pop();
+      navigatorKey.currentContext!
+          .read<ArtistOperations>()
+          .deleteArtist(nameController.text.trim(), data);
     }
   }
 }
