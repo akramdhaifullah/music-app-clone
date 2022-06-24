@@ -123,7 +123,7 @@ class _DeleteArtistState extends State<DeleteArtist> {
               validator: (value) {
                 ArtistOperations ao = ArtistOperations();
                 String checkArtist = nameController.text.trim();
-                return ao.checkArtistForDelete(checkArtist, data);
+                return ao.checkArtistForDelete(checkArtist, artistData);
               },
             ),
           ),
@@ -163,7 +163,7 @@ class _DeleteArtistState extends State<DeleteArtist> {
     if (isFormValid) {
       navigatorKey.currentContext!
           .read<ArtistOperations>()
-          .deleteArtist(nameController.text.trim(), data);
+          .deleteArtist(nameController.text.trim(), artistData);
     }
   }
 }

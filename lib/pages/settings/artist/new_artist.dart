@@ -165,7 +165,7 @@ class _AddArtistState extends State<AddArtist> {
               validator: (value) {
                 ArtistOperations ao = ArtistOperations();
                 String checkArtist = nameController.text.trim();
-                return ao.checkArtistsForDuplicate(checkArtist, data);
+                return ao.checkArtistsForDuplicate(checkArtist, artistData);
               },
             ),
           ),
@@ -204,7 +204,7 @@ class _AddArtistState extends State<AddArtist> {
 
     if (isFormValid) {
       navigatorKey.currentContext!.read<ArtistOperations>().addArtist(
-          imageController.text.trim(), nameController.text.trim(), data);
+          imageController.text.trim(), nameController.text.trim(), artistData);
       // navigatorKey.currentState!.pop();
     }
   }

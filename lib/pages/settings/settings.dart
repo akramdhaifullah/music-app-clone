@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, sized_box_for_whitespace
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
+
 import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/configuration.dart';
 import 'package:music_app_clone/pages/settings/artist/delete_artist.dart';
@@ -77,8 +80,8 @@ class Settings extends StatelessWidget {
 
   Widget userProfilePhoto() {
     return CircleAvatar(
-      child: Icon(
-        MdiIcons.accountOutline,
+      child: Iconify(
+        Mdi.account_outline,
         color: Colors.white,
         size: 30,
       ),
@@ -96,13 +99,14 @@ class Settings extends StatelessWidget {
           user,
           style: TextStyle(
             color: Colors.white,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        SizedBox(height: 6),
+        SizedBox(height: 5),
         Text(
           'View Profile',
-          style: TextStyle(color: Colors.grey),
+          style: TextStyle(
+              color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 13),
         ),
       ],
     );
@@ -168,6 +172,7 @@ class Settings extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontSize: 15,
+              fontWeight: FontWeight.w500,
             ),
           ),
           Spacer(),
@@ -209,6 +214,7 @@ class Settings extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 15,
+                fontWeight: FontWeight.w500,
               ),
             ),
             Spacer(),

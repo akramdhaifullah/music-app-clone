@@ -123,7 +123,7 @@ class _UpdateArtistState extends State<UpdateArtist> {
               validator: (value) {
                 ArtistOperations ao = ArtistOperations();
                 String checkArtist = nameController.text.trim();
-                return ao.checkArtistForUpdate(checkArtist, data);
+                return ao.checkArtistForUpdate(checkArtist, artistData);
               },
             ),
           ),
@@ -326,7 +326,7 @@ class _SetNewArtistState extends State<SetNewArtist> {
               validator: (value) {
                 ArtistOperations ao = ArtistOperations();
                 String checkArtist = nameController.text.trim();
-                return ao.checkArtistsForDuplicate(checkArtist, data);
+                return ao.checkArtistsForDuplicate(checkArtist, artistData);
               },
             ),
           ),
@@ -340,7 +340,7 @@ class _SetNewArtistState extends State<SetNewArtist> {
       alignment: Alignment.center,
       child: MaterialButton(
         child: Text(
-          'Add artist',
+          'Update artist',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -365,7 +365,7 @@ class _SetNewArtistState extends State<SetNewArtist> {
 
     if (isFormValid) {
       navigatorKey.currentContext!.read<ArtistOperations>().updateArtist(
-          imageController.text.trim(), nameController.text.trim(), data);
+          imageController.text.trim(), nameController.text.trim(), artistData);
     }
   }
 }

@@ -4,7 +4,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/carbon.dart';
+import 'package:iconify_flutter/icons/fluent.dart';
+import 'package:iconify_flutter/icons/ic.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
+import 'package:iconify_flutter/icons/ph.dart';
+import 'package:iconify_flutter/icons/uil.dart';
 
 import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/artist.dart';
@@ -18,7 +25,7 @@ import 'package:music_app_clone/pages/settings/settings.dart';
 
 import 'package:provider/provider.dart';
 
-List<Artist> data = ArtistOperations().artistList;
+List<Artist> artistData = ArtistOperations().artistList;
 
 class Home extends StatefulWidget {
   @override
@@ -73,6 +80,21 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Iconify(Ic.baseline_home, color: Colors.white),
+              label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Iconify(Uil.search, color: Colors.white), label: 'Search'),
+          BottomNavigationBarItem(
+              icon: Iconify(Fluent.library_28_regular, color: Colors.white),
+              label: 'Your Library'),
+        ],
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white60,
+      ),
     );
   }
 
@@ -96,7 +118,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget header() {
-    double iconSize = 27;
+    double iconSize = 26;
     return Container(
       margin: EdgeInsets.fromLTRB(15, 50, 15, 0),
       child: Row(
@@ -107,9 +129,9 @@ class _HomeState extends State<Home> {
           Row(
             children: [
               notificationButton(iconSize),
-              SizedBox(width: 16),
+              SizedBox(width: 18),
               recentButton(iconSize),
-              SizedBox(width: 16),
+              SizedBox(width: 18),
               settingsButton(iconSize),
             ],
           ),
@@ -140,15 +162,15 @@ class _HomeState extends State<Home> {
     // } else {
     //   return 'Good evening';
     // }
-    return 'Good morning';
+    return 'Good afternoon';
   }
 
   Widget notificationButton(double size) {
     return GestureDetector(
       onTap: () => navigatorKey.currentState!
           .push(MaterialPageRoute(builder: (context) => Updates())),
-      child: Icon(
-        MdiIcons.bellOutline,
+      child: Iconify(
+        Ph.bell,
         color: Colors.white,
         size: size,
       ),
@@ -159,8 +181,8 @@ class _HomeState extends State<Home> {
     return GestureDetector(
       onTap: () => navigatorKey.currentState!
           .push(MaterialPageRoute(builder: (context) => Recent())),
-      child: Icon(
-        MdiIcons.progressClock,
+      child: Iconify(
+        Mdi.progress_clock,
         color: Colors.white,
         size: size,
       ),
@@ -171,8 +193,8 @@ class _HomeState extends State<Home> {
     return GestureDetector(
       onTap: () => navigatorKey.currentState!
           .push(MaterialPageRoute(builder: (context) => Settings())),
-      child: Icon(
-        MdiIcons.cogOutline,
+      child: Iconify(
+        Carbon.settings,
         color: Colors.white,
         size: size,
       ),
@@ -188,7 +210,7 @@ class _HomeState extends State<Home> {
       child: GridView.count(
         padding: EdgeInsets.all(0),
         physics: NeverScrollableScrollPhysics(),
-        childAspectRatio: 6.5 / 2,
+        childAspectRatio: 6.3 / 2,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         crossAxisCount: 2,
@@ -226,7 +248,7 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               photoCard(playlist.image.toString()),
-              SizedBox(width: 8),
+              SizedBox(width: 9),
               labelCard(playlist.title),
             ],
           ),
@@ -236,7 +258,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget photoCard(String image) {
-    double squareSize = 55;
+    double squareSize = 56;
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
       child: Image(
@@ -256,10 +278,21 @@ class _HomeState extends State<Home> {
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-          fontSize: 12,
+          fontSize: 11,
         ),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget labelTitle(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -273,14 +306,7 @@ class _HomeState extends State<Home> {
             alignment: Alignment.centerLeft,
             child: Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: const Text(
-                'Episodes for you',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: labelTitle("Episodes for you"),
             ),
           ),
           podcastList(),
@@ -312,7 +338,7 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(0, 0, 14, 14),
+            margin: EdgeInsets.fromLTRB(0, 0, 14, 10),
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
@@ -320,8 +346,8 @@ class _HomeState extends State<Home> {
                 image: NetworkImage(podcast.image),
               ),
             ),
-            width: 150,
-            height: 150,
+            width: 152,
+            height: 152,
           ),
           SizedBox(
             width: 150,
@@ -331,12 +357,12 @@ class _HomeState extends State<Home> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                fontSize: 12,
               ),
             ),
           ),
-          SizedBox(height: 6),
+          SizedBox(height: 4),
           SizedBox(
             width: 150,
             child: Text(
@@ -345,7 +371,8 @@ class _HomeState extends State<Home> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: 13,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
               ),
             ),
           )
@@ -364,14 +391,7 @@ class _HomeState extends State<Home> {
             alignment: Alignment.centerLeft,
             child: Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: const Text(
-                'Charts',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: labelTitle("Charts"),
             ),
           ),
           chartsList(),
@@ -419,7 +439,8 @@ class _HomeState extends State<Home> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: 13,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
               ),
             ),
           )
@@ -436,16 +457,8 @@ class _HomeState extends State<Home> {
           Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              margin: EdgeInsets.only(bottom: 16),
-              child: const Text(
-                'Recently played',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+                margin: EdgeInsets.only(bottom: 16),
+                child: labelTitle("Recently played")),
           ),
           recentPlaysList(),
         ],
@@ -482,8 +495,8 @@ class _HomeState extends State<Home> {
               fit: BoxFit.fill,
             ),
           ),
-          width: 113,
-          height: 113,
+          width: 112,
+          height: 112,
         ),
         SizedBox(height: 7),
         SizedBox(
@@ -495,7 +508,7 @@ class _HomeState extends State<Home> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 13,
+              fontSize: 12,
               height: 1.4,
             ),
           ),
@@ -513,14 +526,7 @@ class _HomeState extends State<Home> {
             alignment: Alignment.centerLeft,
             child: Container(
               margin: EdgeInsets.only(bottom: 16),
-              child: const Text(
-                'Your favorite artists',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: labelTitle('Your favorite artists'),
             ),
           ),
           artistList(),
@@ -531,15 +537,14 @@ class _HomeState extends State<Home> {
   }
 
   Widget artistList() {
-    // data = navigatorKey.currentContext!.watch<ArtistOperations>().artistList;
     return Consumer<ArtistOperations>(
       builder: (context, value, child) => SizedBox(
         height: 215,
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return buildArtistList(data[index]);
+            return buildArtistList(artistData[index]);
           },
-          itemCount: data.length,
+          itemCount: artistData.length,
           scrollDirection: Axis.horizontal,
         ),
       ),
