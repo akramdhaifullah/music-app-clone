@@ -25,7 +25,7 @@ class PlaylistOperations {
       Playlist(
           title: '2014,2015,2016,2017',
           image:
-              'https://i.scdn.co/image/ab67706c0000bebbcde6c8101cac9f870e8b04b1'),
+              'https://i.scdn.co/image/ab67706c0000bebbe88bdf868bffe82c7d5c8534'),
       Playlist(
           title: 'Release Radar',
           image:

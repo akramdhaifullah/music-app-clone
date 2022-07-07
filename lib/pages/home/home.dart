@@ -15,6 +15,7 @@ import 'package:iconify_flutter/icons/uil.dart';
 
 import 'package:music_app_clone/main.dart';
 import 'package:music_app_clone/models/artist.dart';
+import 'package:music_app_clone/models/artist_json.dart';
 import 'package:music_app_clone/models/charts.dart';
 import 'package:music_app_clone/models/music.dart';
 import 'package:music_app_clone/models/playlist.dart';
@@ -22,6 +23,7 @@ import 'package:music_app_clone/models/podcast.dart';
 import 'package:music_app_clone/pages/home/updates.dart';
 import 'package:music_app_clone/pages/home/recent.dart';
 import 'package:music_app_clone/pages/settings/settings.dart';
+import 'package:music_app_clone/services/dio.dart';
 
 import 'package:provider/provider.dart';
 
@@ -537,21 +539,36 @@ class _HomeState extends State<Home> {
   }
 
   Widget artistList() {
-    return Consumer<ArtistOperations>(
-      builder: (context, value, child) => SizedBox(
-        height: 215,
-        child: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return buildArtistList(artistData[index]);
-          },
-          itemCount: artistData.length,
-          scrollDirection: Axis.horizontal,
-        ),
-      ),
+    return FutureBuilder<ArtistJSON>(
+      future: DioClient().getDatas(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Datum> artist = snapshot.data!.data;
+          return Consumer<ArtistOperations>(
+            builder: (context, value, child) => SizedBox(
+              height: 215,
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return buildArtistList(artist[index]);
+                },
+                itemCount: artist.length,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+          );
+        } else {
+          return SizedBox(
+            height: 150,
+            child: Center(
+                child:
+                    Text('Loading...', style: TextStyle(color: Colors.white))),
+          );
+        }
+      },
     );
   }
 
-  Widget buildArtistList(Artist artist) {
+  Widget buildArtistList(Datum artist) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -562,7 +579,7 @@ class _HomeState extends State<Home> {
             borderRadius: BorderRadius.circular(75),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(artist.image.toString()),
+              image: NetworkImage(artist.artistImage),
             ),
           ),
           width: 150,
@@ -573,7 +590,7 @@ class _HomeState extends State<Home> {
           width: 150,
           margin: EdgeInsets.only(bottom: 8),
           child: Text(
-            artist.name,
+            artist.artistName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

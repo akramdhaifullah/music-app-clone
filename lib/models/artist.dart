@@ -37,6 +37,10 @@ class ArtistOperations with ChangeNotifier {
         image:
             'https://i.scdn.co/image/ab6761610000f1788a8415e72dedaa552259d0c1',
         name: 'Red Velvet'),
+    Artist(
+        image:
+            'https://i.scdn.co/image/ab6761610000f178b894ef9fa437b0389c5567cc',
+        name: 'Post Malone'),
   ];
 
   List<Artist> get artistList => _list;
@@ -49,6 +53,17 @@ class ArtistOperations with ChangeNotifier {
     }
     return null;
   }
+
+  // void addArtist(String image, String name, List<Artist> list) {
+  //   if (image == ' ' || image == '') {
+  //     list.add(Artist(image: null, name: name));
+  //     print('condition fulfilled');
+  //   } else {
+  //     list.add(Artist(image: image, name: name));
+  //     print('condition not fulfilled');
+  //   }
+  //   notifyListeners();
+  // }
 
   void addArtist(String image, String name, List<Artist> list) {
     if (image == ' ' || image == '') {
